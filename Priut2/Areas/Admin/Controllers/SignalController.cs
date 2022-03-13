@@ -50,8 +50,8 @@ namespace Priut2.Areas.Admin.Controllers
         // GET: Admin/Signal/Create
         public IActionResult Create()
         {
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Id");
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id");
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name");
+            ViewData["UserId"] = new SelectList(_context.User, "Id", "Email");
             return View();
         }
 
@@ -86,8 +86,8 @@ namespace Priut2.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Id", signal.EmployeeId);
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", signal.UserId);
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name", signal.EmployeeId);
+            ViewData["UserId"] = new SelectList(_context.User, "Id", "Email", signal.UserId);
             return View(signal);
         }
 

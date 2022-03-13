@@ -49,7 +49,7 @@ namespace Priut2.Areas.Admin.Controllers
         // GET: Admin/Animals/Create
         public IActionResult Create()
         {
-            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "Id");
+            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "Breeds");
             return View();
         }
 
@@ -83,7 +83,7 @@ namespace Priut2.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "Id", animals.BreedId);
+            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "Breeds", animals.BreedId);
             return View(animals);
         }
 

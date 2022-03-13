@@ -9,7 +9,6 @@ namespace Priut2.Enum
     {
         Dog=1,
         Cat,
-        Rabbit,
-        Flamingo
+        
     }
 }
