@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Priut2.Data.Migrations
 {
-    public partial class Tables : Migration
+    public partial class Table : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -69,6 +69,27 @@ namespace Priut2.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Signals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Signals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Signals_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Animalss",
                 columns: table => new
                 {
@@ -96,43 +117,10 @@ namespace Priut2.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Signals",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Signals", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Signals_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Signals_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Animalss_BreedId",
                 table: "Animalss",
                 column: "BreedId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Signals_EmployeeId",
-                table: "Signals",
-                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Signals_UserId",
@@ -149,13 +137,13 @@ namespace Priut2.Data.Migrations
                 name: "Articles");
 
             migrationBuilder.DropTable(
+                name: "Employees");
+
+            migrationBuilder.DropTable(
                 name: "Signals");
 
             migrationBuilder.DropTable(
                 name: "Breeds");
-
-            migrationBuilder.DropTable(
-                name: "Employees");
 
             migrationBuilder.DropColumn(
                 name: "FirstName",

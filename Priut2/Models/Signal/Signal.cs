@@ -12,9 +12,7 @@ namespace Priut2.Models
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public virtual User User{ get; set; }
-        public int EmployeeId { get; set; }
-        public virtual Employee Employee { get; set; }
+        public  User User{ get; set; }  
         public string Description { get; set; }    
         public DateTime Date{ get; set; }
         

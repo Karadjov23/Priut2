@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,15 +16,19 @@ namespace Priut2.Areas.Admin.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public SignalController(ApplicationDbContext context)
+        private readonly UserManager<User> _userManager;
+        
+        public SignalController(ApplicationDbContext context, UserManager<User> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
         // GET: Admin/Signal
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Signals.Include(s => s.Employee).Include(s => s.User);
+            ViewBag.userid = _userManager.GetUserId(HttpContext.User);
+            var applicationDbContext = _context.Signals.Include(s => s.User);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -36,7 +41,6 @@ namespace Priut2.Areas.Admin.Controllers
             }
 
             var signal = await _context.Signals
-                .Include(s => s.Employee)
                 .Include(s => s.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (signal == null)
@@ -50,8 +54,7 @@ namespace Priut2.Areas.Admin.Controllers
         // GET: Admin/Signal/Create
         public IActionResult Create()
         {
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name");
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Email");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -60,7 +63,7 @@ namespace Priut2.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserId,EmployeeId,Description,Date")] Signal signal)
+        public async Task<IActionResult> Create([Bind("Id,UserId,Description,Date")] Signal signal)
         {
             if (ModelState.IsValid)
             {
@@ -68,8 +71,7 @@ namespace Priut2.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Id", signal.EmployeeId);
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", signal.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", signal.UserId);
             return View(signal);
         }
 
@@ -86,8 +88,7 @@ namespace Priut2.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name", signal.EmployeeId);
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Email", signal.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", signal.UserId);
             return View(signal);
         }
 
@@ -96,7 +97,7 @@ namespace Priut2.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,EmployeeId,Description,Date")] Signal signal)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,Description,Date")] Signal signal)
         {
             if (id != signal.Id)
             {
@@ -123,8 +124,7 @@ namespace Priut2.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Id", signal.EmployeeId);
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", signal.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", signal.UserId);
             return View(signal);
         }
 
@@ -137,7 +137,6 @@ namespace Priut2.Areas.Admin.Controllers
             }
 
             var signal = await _context.Signals
-                .Include(s => s.Employee)
                 .Include(s => s.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (signal == null)

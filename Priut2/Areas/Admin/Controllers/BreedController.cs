@@ -27,22 +27,7 @@ namespace Priut2.Areas.Admin.Controllers
         }
 
         // GET: Admin/Breed/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var breed = await _context.Breeds
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (breed == null)
-            {
-                return NotFound();
-            }
-
-            return View(breed);
-        }
+       
 
         // GET: Admin/Breed/Create
         public IActionResult Create()

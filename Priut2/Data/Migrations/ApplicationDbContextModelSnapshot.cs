@@ -283,15 +283,10 @@ namespace Priut2.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("UserId");
 
@@ -435,17 +430,9 @@ namespace Priut2.Data.Migrations
 
             modelBuilder.Entity("Priut2.Models.Signal", b =>
                 {
-                    b.HasOne("Priut2.Models.Employee", "Employee")
-                        .WithMany("Signals")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Priut2.User", "User")
                         .WithMany("Signal")
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Employee");
 
                     b.Navigation("User");
                 });
@@ -453,11 +440,6 @@ namespace Priut2.Data.Migrations
             modelBuilder.Entity("Priut2.Models.Breed", b =>
                 {
                     b.Navigation("Animalss");
-                });
-
-            modelBuilder.Entity("Priut2.Models.Employee", b =>
-                {
-                    b.Navigation("Signals");
                 });
 
             modelBuilder.Entity("Priut2.User", b =>

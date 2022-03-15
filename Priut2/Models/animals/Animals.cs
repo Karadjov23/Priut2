@@ -19,10 +19,10 @@ namespace Priut2.Entities
         public KindCategory KindCategory { get; set; }
 
         public int BreedId { get; set; }
-         public virtual Breed Breed { get; set; }
+         public  Breed Breed { get; set; }
 
         [Required]
-        [Range(0, int.MaxValue, ErrorMessage = "Моля въведете по голямо от 0-ла")]
+       
         public string Age { get; set; }
        
         [Required]

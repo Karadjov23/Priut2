@@ -17,7 +17,7 @@ namespace Priut2
         [StringLength(30)]
         public string LastName { get; set; }
         
-        public virtual ICollection<Signal> Signal { get; set; }
+        public  ICollection<Signal> Signal { get; set; }
     }
 
 }

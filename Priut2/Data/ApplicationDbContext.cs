@@ -18,11 +18,11 @@ namespace Priut2.Data
             : base(options)
         {
         }
-        public virtual DbSet<Animals> Animalss { get; set; }
-        public virtual DbSet<Breed> Breeds { get; set; }
-        public virtual DbSet<Article> Articles { get; set; }
-        public virtual DbSet<Signal> Signals { get; set; }  
-        public virtual DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<User> User{ get; set; }
+        public  DbSet<Animals> Animalss { get; set; }
+        public  DbSet<Breed> Breeds { get; set; }
+        public  DbSet<Article> Articles { get; set; }
+        public  DbSet<Signal> Signals { get; set; }  
+        public  DbSet<Employee> Employees { get; set; }
+     
     }
 }

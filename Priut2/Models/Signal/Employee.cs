@@ -15,8 +15,6 @@ namespace Priut2.Models
         public string Email { get; set; }
         public string Image { get; set; }
         public string EmployeersPosition { get; set; }
-     
-        public virtual ICollection<Signal> Signals { get; set; }
-
+ 
     }
 }
