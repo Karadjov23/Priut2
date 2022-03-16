@@ -12,9 +12,14 @@ namespace Priut2.Models
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public  User User{ get; set; }  
+        public  User User{ get; set; }
+        [Required]
         public string Description { get; set; }    
         public DateTime Date{ get; set; }
-        
+        public Signal()
+        {
+            Date = DateTime.Now;
+        }
+
     }
 }

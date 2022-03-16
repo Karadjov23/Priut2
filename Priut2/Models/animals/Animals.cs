@@ -17,29 +17,28 @@ namespace Priut2.Entities
         public string Name { get; set; }
         [Required]
         public KindCategory KindCategory { get; set; }
-
+        [Required]
         public int BreedId { get; set; }
          public  Breed Breed { get; set; }
 
         [Required]
-       
+      
         public string Age { get; set; }
        
         [Required]
         public Gender Gender { get; set; }
 
         [Required]
+       
         public string Image { get; set; }
 
-        [Required]
+        
         public bool Castrated { get; set; }
 
-        [Required]
         public bool Passport { get; set; }
-      
-       
+     
         public string Condition { get; set; }
-               
+               [DisplayFormat(DataFormatString ="{0:yyyy-MM-dd}")]
         public DateTime Date { get; set; }
      
        

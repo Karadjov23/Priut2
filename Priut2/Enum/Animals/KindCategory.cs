@@ -7,8 +7,9 @@ namespace Priut2.Enum
 {
     public enum KindCategory
     {
-        Dog=1,
-        Cat,
+        Dog,
+        Cat
+        
         
     }
 }
