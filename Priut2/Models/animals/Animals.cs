@@ -11,7 +11,7 @@ namespace Priut2.Entities
 {
     public class Animals
     {
-
+       
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
@@ -22,7 +22,7 @@ namespace Priut2.Entities
          public  Breed Breed { get; set; }
 
         [Required]
-      
+      [Range(1,20,ErrorMessage = "cannot enter 0 ")]
         public string Age { get; set; }
        
         [Required]
