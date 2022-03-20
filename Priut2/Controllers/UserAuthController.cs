@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-
 using Microsoft.AspNetCore.Mvc;
-using Priut2.Data;
-using Priut2.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Priut2.Data;
+using Priut2.Entities;
+using Priut2.Models;
 namespace Priut2.Controllers
 {
     public class UserAuthController : Controller
@@ -55,14 +55,60 @@ namespace Priut2.Controllers
         {
             await _signInManager.SignOutAsync();
 
-            if (returnUrl!=null)
+            if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);
             }
             else
             {
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
         }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterUser(RegistrationModel registrationModel)
+        {
+            registrationModel.RegistrationInValid = "true";
+            if (ModelState.IsValid)
+            {
+                User user = new User
+                {
+                    UserName = registrationModel.Email,
+                    Email = registrationModel.Email,
+                    PhoneNumber = registrationModel.PhoneNumber,
+                    FirstName = registrationModel.FirstName,
+                    LastName = registrationModel.LastName
+                };
+                var result = await _userManager.CreateAsync(user, registrationModel.Password);
+                if (result.Succeeded)
+                {
+                    registrationModel.RegistrationInValid = "";
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return PartialView("_UserRegistrationPartial", registrationModel);
+                }
+                AddErrorsToModelState(result);
+            }
+            return PartialView("_UserRegistrationPartial", registrationModel);
+
+
+        }
+        [AllowAnonymous]
+        public async Task<bool> UserNameExists(string userName)
+        {
+            bool userNameExists = await _context.Users.AnyAsync(u => u.UserName.ToUpper() == userName.ToUpper());
+            if (userNameExists)
+                return true;
+
+            return false;
+        }
+        private void AddErrorsToModelState(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+                ModelState.AddModelError(string.Empty, error.Description);
+        }
     }
+
+
 }

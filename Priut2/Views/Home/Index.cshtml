@@ -1,15 +1,38 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using Priut2.Data
+@inject SignInManager<User> SignInManager;
+@{
     ViewData["Title"] = "Home Page";
 }
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="text-center">
+        <h1 class="display-4">Добре Дошли</h1>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">Не си в акаунта</h1>
+        <partial name="_DefaultPartial" />
+    </div>
+}
+
+
 <div class="modal fade" id="UserLoginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <partial name="_UserLoginPartial">
- </div>
+    <partial name="_UserLoginPartial">
+</div>
 
-@section Scripts{ 
-    <script src="~/js/UserLogin.js"></script>
+<div class="modal fade" id="UserRegistrationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <partial name="_UserRegistrationPartial">
+</div>
+
+@section Scripts{
+
+
+    @{
+        await Html.RenderPartialAsync("_AuthScriptsPartial");
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
 }
